@@ -22,7 +22,7 @@ server.use(express.json());
 const swaggerDocument = YAML.load('./swagger.yml');
 
 // server swagger ui
-server.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+server.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // logger middleware
 server.use(loggerMiddleware);
