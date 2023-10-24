@@ -26,17 +26,17 @@ server.use(handleError);
 
 // Scheduled task for sensor data simulation
 // This cron job is set to run every 10 seconds
-cron.schedule('*/10 * * * * *', async () => {
-    console.log('Generating simulated sensor data...');
-    try {
-        // Create new sensor data
-        const newSensorData = await generateSensorData();
-        console.log('Simulated data inserted:', newSensorData);
-    }
-    catch (error) {
-        console.error('Error inserting simulated data:', error);
-    }
-});
+// cron.schedule('*/10 * * * * *', async () => {
+//     console.log('Generating simulated sensor data...');
+//     try {
+//         // Create new sensor data
+//         const newSensorData = await generateSensorData();
+//         console.log('Simulated data inserted:', newSensorData);
+//     }
+//     catch (error) {
+//         console.error('Error inserting simulated data:', error);
+//     }
+// });
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
