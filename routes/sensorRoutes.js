@@ -1,10 +1,7 @@
 const express = require('express');
-// const { body } = require('express-validator');
 const Sensor = require('../models/sensor')
-const validateRules = require('../middleware/validatorMiddleware');
+const { validateId, sensorValidationRules, validateRules } = require('../middleware/validatorMiddleware');
 const router = express.Router();
-
-const sensorValidationRules = [];
 
 // get all sensor data
 router.get('/', async (req, res, next) => {
@@ -17,7 +14,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // get sensor data by id
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', validateId, validateRules, async (req, res, next) => {
     try {
         const sensorData = await Sensor.findById(req.params.id).select('-__v').lean().exec();
         if (!sensorData) {
@@ -41,7 +38,7 @@ router.post('/', sensorValidationRules, validateRules, async (req, res, next) =>
 });
 
 // update sensor data by id
-router.put('/:id', sensorValidationRules, validateRules, async (req, res, next) => {
+router.put('/:id', validateId, validateRules, async (req, res, next) => {
     try {
         const updatedSensorData = await Sensor.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedSensorData) {
@@ -54,13 +51,13 @@ router.put('/:id', sensorValidationRules, validateRules, async (req, res, next) 
 });
 
 // delete sensor by id
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', validateId, validateRules, async (req, res, next) => {
     try {
         const deletedSensorData = await Sensor.findByIdAndRemove(req.params.id);
         if (!deletedSensorData) {
             return res.status(404).json({ message: 'Sensor data not found' });
         }
-        res.status(204).send(); 
+        res.status(204).send();
     } catch (error) {
         next(error);
     }
