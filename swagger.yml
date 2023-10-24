@@ -1,0 +1,80 @@
+openapi: 3.0.0
+info:
+  title: Sensor API
+  description: API for managing sensor data
+  version: 1.0.0
+
+paths:
+  /api/sensor:
+    get:
+      summary: Get all sensor data
+      responses:
+        '200':
+          description: Successful response
+
+    post:
+      summary: Create a new sensor data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SensorData'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+
+  /api/sensor/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Sensor ID
+    get:
+      summary: Get sensor data by ID
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Sensor data not found
+
+    put:
+      summary: Update sensor data by ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SensorData'
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Sensor data not found
+
+    delete:
+      summary: Delete sensor data by ID
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Sensor data not found
+
+components:
+  schemas:
+    SensorData:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        location:
+          type: string
+        temperature_celsius:
+          type: number
+        humidity_percent:
+          type: integer
+        pressure_hpa:
+          type: number

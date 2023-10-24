@@ -6,6 +6,9 @@ const connectDB = require('./config/db');
 const handleError = require('./middleware/errorMiddleware');
 const loggerMiddleware = require('./middleware/loggerMiddleware');
 
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+
 const generateSensorData = require('./client');
 
 const server = express();
@@ -14,6 +17,12 @@ const server = express();
 connectDB();
 
 server.use(express.json());
+
+// load swagger file
+const swaggerDocument = YAML.load('./swagger.yml');
+
+// server swagger ui
+server.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // logger middleware
 server.use(loggerMiddleware);
